@@ -3,6 +3,7 @@ package ryndrappf.apiproduct.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ryndrappf.apiproduct.models.entities.Product;
+import ryndrappf.apiproduct.models.entities.Supplier;
 import ryndrappf.apiproduct.models.repos.ProductRepo;
 
 import javax.transaction.Transactional;
@@ -38,5 +39,14 @@ public class ProductService {
 
     public List<Product> findByNameContains(String name){
         return productRepo.findByNameContains(name);
+    }
+
+    public void addSuppliers(Supplier supplier, Long productId){
+        Product product = findOne(productId);
+        if (product == null){
+            throw new RuntimeException("Product with ID : " + productId + "not found");
+        }
+        product.getSuppliers().add(supplier);
+        save(product);
     }
 }
