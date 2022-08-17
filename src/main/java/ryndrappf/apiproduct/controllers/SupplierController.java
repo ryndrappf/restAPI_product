@@ -8,11 +8,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import ryndrappf.apiproduct.dto.ResponseData;
+import ryndrappf.apiproduct.dto.SearchData;
 import ryndrappf.apiproduct.dto.SupplierData;
 import ryndrappf.apiproduct.models.entities.Supplier;
 import ryndrappf.apiproduct.services.SupplierService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/suppliers")
@@ -68,4 +70,23 @@ public class SupplierController {
         return ResponseEntity.ok(responseData);
     }
 
+    @PostMapping("/search/byEmail")
+    public Supplier findByEmail(@RequestBody SearchData searchData){
+        return supplierService.findByEmail(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/byNameContains")
+    public List<Supplier> findByNameContains(@RequestBody SearchData searchData){
+        return supplierService.findByNameContainsOrdrByIdDesc(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/bynameStartingWith")
+    public List<Supplier> findByNameStartingWith(@RequestBody SearchData searchData){
+        return supplierService.findByNameStartingWith(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/byNameOrEmail")
+    public List<Supplier> findByNameContainsOrEmailContains(@RequestBody SearchData searchData){
+        return supplierService.findByNameContainsOrEmailContains(searchData.getSearchKey(), searchData.getOtherSearchKey());
+    }
 }

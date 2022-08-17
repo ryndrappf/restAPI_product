@@ -6,6 +6,7 @@ import ryndrappf.apiproduct.models.entities.Supplier;
 import ryndrappf.apiproduct.models.repos.SupplierRepo;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,5 +34,21 @@ public class SupplierService {
 
     public void removeOne(Long id){
         supplierRepo.deleteById(id);
+    }
+
+    public Supplier findByEmail(String email){
+        return supplierRepo.findByEmail(email);
+    }
+
+    public List<Supplier> findByNameContainsOrdrByIdDesc(String name){
+        return supplierRepo.findByNameContainsOrderByIdDesc(name);
+    }
+
+    public List<Supplier> findByNameStartingWith(String prefix){
+        return supplierRepo.findByNameStartingWith(prefix);
+    }
+
+    public List<Supplier> findByNameContainsOrEmailContains(String name, String email){
+        return supplierRepo.findByNameContainsOrEmailContains(name,email);
     }
 }
