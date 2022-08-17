@@ -7,6 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import ryndrappf.apiproduct.dto.ResponseData;
+import ryndrappf.apiproduct.dto.SearchData;
 import ryndrappf.apiproduct.dto.SupplierData;
 import ryndrappf.apiproduct.models.entities.Product;
 import ryndrappf.apiproduct.models.entities.Supplier;
@@ -75,4 +76,23 @@ public class ProductController {
         productService.addSuppliers(supplier, productId);
     }
 
+    @PostMapping("/search/name")
+    public Product getProductByName(@RequestBody SearchData searchData){
+        return productService.findByProductName(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/namelike")
+    public List<Product> getProductByNameLike(@RequestBody SearchData searchData){
+        return productService.findByProductNameLike(searchData.getSearchKey());
+    }
+
+    @GetMapping("/search/category/{categoryId}")
+    public List<Product> getProductByCategory(@PathVariable("categoryId") Long categoryId){
+        return productService.findProductByCategory(categoryId);
+    }
+
+    @GetMapping("/search/supplier/{supplierId}")
+    public List<Product> getProductBySupplier(@PathVariable("supplierId") Long supplierId){
+        return productService.findBySupplier(supplierId);
+    }
 }
